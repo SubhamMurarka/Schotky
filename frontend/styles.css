@@ -1,0 +1,95 @@
+body, html {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Arial', sans-serif;
+}
+
+.vanta-bg {
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    z-index: -1;
+}
+
+header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    background: none; /* Remove any background */
+    z-index: 10;
+    border-bottom: none; /* Remove border if any */
+}
+
+header h1 {
+    font-size: 4rem; /* Increased size for prominence */
+    color: #FFFFFF;; /* Vibrant orange color */
+    font-weight: 800; /* Bolder text */
+    text-transform: uppercase;
+    letter-spacing: 10px; /* More spacing for modern look */
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5); /* Stronger shadow for better visibility */
+    margin: 0;
+}
+
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 2s forwards;
+}
+
+.fade-out {
+    animation: fadeOut 2s forwards;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.url-shortener-box {
+    background-color: rgba(255, 255, 255, 0.2); /* Transparent box */
+    padding: 20px;
+    border-radius: 20px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: #ffffff; /* White color for text */
+    backdrop-filter: blur(10px); /* Optional: adds a blur effect to the background */
+}
+
+.url-shortener-box input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent input background */
+    color: #333; /* Darker text color for better readability */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for input */
+}
+
+.url-shortener-box button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color:
+    #FF5722; /* Warm orange color */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for button */
+}
+
+.url-shortener-box button:hover {
+    background-color: #E64A19; /* Darker shade on hover */
+}
