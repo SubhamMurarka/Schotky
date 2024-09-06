@@ -1,27 +1,20 @@
-FROM golang:alpine as builder
+# Dockerfile for products service
+FROM golang:1.21.0-alpine
 
-RUN mkdir /build
-
-ADD . /build
-
-WORKDIR /build
-
-RUN go build -o main .
-
-#stage 2
-
-FROM alpine
-
-RUN adduser -S -H -h /app appuser
-
-USER appuser
-
-COPY . /app
-
-COPY --from=builder /build/main /app/
-
+# Set the working directory inside the container.
 WORKDIR /app
 
-EXPOSE 3000
+# Copy go.mod and go.sum files to the working directory.
+COPY go.mod go.sum ./
 
+# Download all dependencies.
+RUN go mod download
+
+# Copy the source code into the container.
+COPY . .
+
+# Build the application.
+RUN go build -o main .
+
+# Run the executable.
 CMD ["./main"]

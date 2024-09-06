@@ -47,7 +47,7 @@ func NewZooKeeperClient() ZooKeeperClient {
 // Connect establishes a connection to the ZooKeeper server.
 func (zkc *ZKClient) Connect() error {
 	var err error
-	zkc.conn, _, err = zk.Connect([]string{"localhost:2181", "localhost:2182", "localhost:2183"}, SessionTimeout)
+	zkc.conn, _, err = zk.Connect([]string{"zoo1:2181", "zoo2:2182", "zoo3:2183"}, SessionTimeout)
 	if err != nil {
 		log.Fatalf("Failed to connect to ZooKeeper: %v", err)
 		return err

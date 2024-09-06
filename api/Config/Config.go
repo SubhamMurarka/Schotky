@@ -57,7 +57,7 @@ func init() {
 		GlobalCounterPath: os.Getenv("GLOBAL_COUNTER_PATH"),
 		ParentLockPath:    os.Getenv("PARENT_LOCK_PATH"),
 		ServerPath:        os.Getenv("SERVER_PATH"),
-		ServerPort:        os.Getenv("SERVER_PORT3"),
+		ServerPort:        os.Getenv("SERVER_ID"),
 		SessionTimeout:    sessionTimeout,
 		CounterRange:      os.Getenv("COUNTER_RANGE"),
 		Servers:           ServerList,

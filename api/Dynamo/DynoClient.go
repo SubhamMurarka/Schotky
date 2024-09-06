@@ -43,7 +43,7 @@ func NewDynamoDaxClient() DynamoDaxAPI {
 
 	sess, err := session.NewSession(&aws.Config{
 		Region:   aws.String(awsRegion),
-		Endpoint: aws.String("http://localhost:8003"),
+		Endpoint: aws.String("http://ddb:8003"),
 	})
 	if err != nil {
 		log.Fatalf("Failed to create session: %v", err)
