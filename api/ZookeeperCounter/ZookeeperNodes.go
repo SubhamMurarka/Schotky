@@ -19,7 +19,7 @@ var (
 	ChildLocks        = Config.Cfg.ChildLocks
 	ServerPath        = Config.Cfg.ServerPath
 	ServerPort        = Config.Cfg.ServerPort
-	ServerRangePath   = Config.Cfg.ServerPath + ServerPort
+	ServerRangePath   = Config.Cfg.ServerPath + "/" + ServerPort
 	Servers           = Config.Cfg.Servers
 	SessionTimeout    = Config.Cfg.SessionTimeout
 	CounterRange      = Config.Cfg.CounterRange
@@ -47,11 +47,12 @@ func NewZooKeeperClient() ZooKeeperClient {
 // Connect establishes a connection to the ZooKeeper server.
 func (zkc *ZKClient) Connect() error {
 	var err error
-	zkc.conn, _, err = zk.Connect([]string{"zoo1:2181", "zoo2:2182", "zoo3:2183"}, SessionTimeout)
+	zkc.conn, _, err = zk.Connect([]string{"zk1:2181", "zk2:2181", "zk3:2181"}, SessionTimeout)
 	if err != nil {
 		log.Fatalf("Failed to connect to ZooKeeper: %v", err)
 		return err
 	}
+	log.Printf("connected to ZooKeeper")
 	return nil
 }
 
@@ -151,6 +152,7 @@ func (zkc *ZKClient) Close() {
 
 // Helper function to create a node in ZooKeeper.
 func createNode(conn *zk.Conn, path string, data []byte, flags int32) {
+	fmt.Println("trying to create nodes")
 	nodePath, err := conn.Create(path, data, flags, zk.WorldACL(zk.PermAll))
 	if err != nil {
 		if err == zk.ErrNodeExists {

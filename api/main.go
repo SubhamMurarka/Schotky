@@ -24,6 +24,13 @@ func main() {
 	//initialising zookeeper
 	dir, _ := os.Getwd()
 	fmt.Println(dir)
+
+	// initialise Dynamo and Dax
+	DDclient := Dynamo.NewDynamoDaxClient()
+	DDclient.CreateTable()
+	DDclient.EnableTTL()
+
+	// var client zookeepercounter.ZooKeeperClient
 	client := zookeepercounter.NewZooKeeperClient()
 	err := client.Connect()
 	if err != nil {
@@ -31,11 +38,6 @@ func main() {
 	}
 	client.CreatePersistentNodes()
 	defer client.Close()
-
-	//initialise Dynamo and Dax
-	DDclient := Dynamo.NewDynamoDaxClient()
-	DDclient.CreateTable()
-	DDclient.EnableTTL()
 
 	//initialising services
 	ss := services.NewShortenServiceObj(DDclient, client)

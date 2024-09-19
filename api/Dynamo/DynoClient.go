@@ -7,6 +7,8 @@ import (
 	"github.com/SubhamMurarka/Schotky/Config"
 	"github.com/aws/aws-dax-go/dax"
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/awserr"
+	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 )
@@ -42,8 +44,10 @@ func NewDynamoDaxClient() DynamoDaxAPI {
 	}
 
 	sess, err := session.NewSession(&aws.Config{
-		Region:   aws.String(awsRegion),
-		Endpoint: aws.String("http://ddb:8003"),
+		Region:      aws.String(awsRegion),
+		Endpoint:    aws.String("http://ddb:8000"),
+		Credentials: credentials.NewStaticCredentials("dummy", "dummy", ""),
+		LogLevel:    aws.LogLevel(aws.LogDebugWithHTTPBody), // Enable detailed logging
 	})
 	if err != nil {
 		log.Fatalf("Failed to create session: %v", err)
@@ -70,19 +74,17 @@ func NewDynamoDaxClient() DynamoDaxAPI {
 
 // Check if a table exists
 func (d *DynamoDaxClient) checkTableExists() bool {
-	input := &dynamodb.ListTablesInput{}
-	result, err := d.DynamoClient.ListTables(input)
+	input := &dynamodb.DescribeTableInput{
+		TableName: aws.String(TableName),
+	}
+	_, err := d.DynamoClient.DescribeTable(input)
 	if err != nil {
-		log.Fatalf("Failed to list tables: %v", err)
-	}
-
-	for _, name := range result.TableNames {
-		if *name == TableName {
-			return true
+		if aerr, ok := err.(awserr.Error); ok && aerr.Code() == dynamodb.ErrCodeResourceNotFoundException {
+			return false // Table doesn't exist
 		}
+		log.Fatalf("Failed to describe table: %v", err)
 	}
-
-	return false
+	return true // Table exists
 }
 
 // Create a DynamoDB table with the specified schema
@@ -111,6 +113,10 @@ func (d *DynamoDaxClient) CreateTable() {
 
 	_, err := d.DynamoClient.CreateTable(input)
 	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok && aerr.Code() == dynamodb.ErrCodeResourceInUseException {
+			fmt.Println("Table already exists")
+			return
+		}
 		log.Fatalf("Failed to create table: %v", err)
 	}
 

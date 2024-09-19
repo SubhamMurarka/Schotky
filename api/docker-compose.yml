@@ -1,36 +1,55 @@
-version: '3.8'
+version: '3.9'
 
 services:
-  zoo1:
-    image: zookeeper:3.8.2
-    hostname: zoo1
-    container_name: zoo1
+  # ZooKeeper Cluster
+  zk1:
+    container_name: zk1
+    hostname: zk1
+    image: bitnami/zookeeper:3.6.2
     ports:
-      - "2181:2181"
+      - 21811:2181
     environment:
-      ZOO_MY_ID: 1
-      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - ZOO_SERVER_ID=1
+      - ZOO_SERVERS=0.0.0.0:2888:3888,zk2:2888:3888,zk3:2888:3888
 
-  zoo2:
-    image: zookeeper:3.8.2
-    hostname: zoo2
-    container_name: zoo2
+  zk2:
+    container_name: zk2
+    hostname: zk2
+    image: bitnami/zookeeper:3.6.2
     ports:
-      - "2182:2181"
+      - 21812:2181
     environment:
-      ZOO_MY_ID: 2
-      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - ZOO_SERVER_ID=2
+      - ZOO_SERVERS=zk1:2888:3888,0.0.0.0:2888:3888,zk3:2888:3888
 
-  zoo3:
-    image: zookeeper:3.8.2
-    hostname: zoo3
-    container_name: zoo3
+  zk3:
+    container_name: zk3
+    hostname: zk3
+    image: bitnami/zookeeper:3.6.2
     ports:
-      - "2183:2181"
+      - 21813:2181
     environment:
-      ZOO_MY_ID: 3
-      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - ZOO_SERVER_ID=3
+      - ZOO_SERVERS=zk1:2888:3888,zk2:2888:3888,0.0.0.0:2888:3888
 
+  # Zoonavigator (UI for Zookeeper)
+  zoonavigator:
+    container_name: zoonavigator
+    image: elkozmon/zoonavigator
+    ports:
+      - 9000:9000
+
+  # DynamoDB Local for Testing
+  ddb:
+    image: amazon/dynamodb-local
+    container_name: ddb
+    ports:
+      - 8000:8000
+
+  # Backend Services
   backend1:
     build: .
     container_name: backend1
@@ -38,9 +57,9 @@ services:
       - SERVER_ID=1
     depends_on:
       - ddb
-      - zoo1
-      - zoo2
-      - zoo3
+      - zk1
+      - zk2
+      - zk3
 
   backend2:
     build: .
@@ -49,9 +68,9 @@ services:
       - SERVER_ID=2
     depends_on:
       - ddb
-      - zoo1
-      - zoo2
-      - zoo3
+      - zk1
+      - zk2
+      - zk3
 
   backend3:
     build: .
@@ -60,10 +79,11 @@ services:
       - SERVER_ID=3
     depends_on:
       - ddb
-      - zoo1
-      - zoo2
-      - zoo3
+      - zk1
+      - zk2
+      - zk3
 
+  # NGINX Service
   nginx:
     image: nginx:latest
     container_name: nginx
@@ -75,9 +95,3 @@ services:
       - backend1
       - backend2
       - backend3
-
-  ddb:
-    image: amazon/dynamodb-local
-    container_name: ddb
-    ports:
-      - "8003:8000"
