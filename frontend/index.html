@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schotky - Url Shortner</title>
+    <title>Schotky - URL Shortener</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -14,9 +14,17 @@
         <h1>Schotky</h1>
     </header>
 
+    <!-- URL Shortener Box -->
     <div class="url-shortener-box fade-in" id="url-box">
         <input type="text" id="url-input" placeholder="Enter URL">
         <button onclick="shortenUrl()">Shorten</button>
+    </div>
+
+    <!-- Shortened URL Display -->
+    <div id="shortened-url-box" class="shortened-url-box" style="display: none;">
+        <p>Your shortened URL:</p>
+        <a id="shortened-url" href="#" target="_blank"></a>
+        <button onclick="resetForm()">Shorten another URL</button>
     </div>
 
     <!-- Include Three.js -->

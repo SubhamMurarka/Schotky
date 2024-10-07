@@ -23,18 +23,18 @@ header {
     width: 100%;
     text-align: center;
     padding: 20px 0;
-    background: none; /* Remove any background */
+    background: none;
     z-index: 10;
-    border-bottom: none; /* Remove border if any */
+    border-bottom: none;
 }
 
 header h1 {
-    font-size: 4rem; /* Increased size for prominence */
-    color: #FFFFFF;; /* Vibrant orange color */
-    font-weight: 800; /* Bolder text */
+    font-size: 4rem;
+    color: #FFFFFF;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 10px; /* More spacing for modern look */
-    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5); /* Stronger shadow for better visibility */
+    letter-spacing: 10px;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
     margin: 0;
 }
 
@@ -57,14 +57,14 @@ header h1 {
     100% { opacity: 0; }
 }
 
-.url-shortener-box {
-    background-color: rgba(255, 255, 255, 0.2); /* Transparent box */
+.url-shortener-box, .shortened-url-box {
+    background-color: rgba(255, 255, 255, 0.2);
     padding: 20px;
-    border-radius: 20px; /* Rounded corners */
+    border-radius: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
-    color: #ffffff; /* White color for text */
-    backdrop-filter: blur(10px); /* Optional: adds a blur effect to the background */
+    color: #ffffff;
+    backdrop-filter: blur(10px);
 }
 
 .url-shortener-box input[type="text"] {
@@ -73,23 +73,36 @@ header h1 {
     border-radius: 5px;
     border: none;
     margin-bottom: 10px;
-    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent input background */
-    color: #333; /* Darker text color for better readability */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for input */
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.url-shortener-box button {
+.url-shortener-box button,
+.shortened-url-box button {
     padding: 10px 20px;
     border-radius: 5px;
     border: none;
-    background-color:
-    #FF5722; /* Warm orange color */
+    background-color: #FF5722;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for button */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.url-shortener-box button:hover {
-    background-color: #E64A19; /* Darker shade on hover */
+.url-shortener-box button:hover,
+.shortened-url-box button:hover {
+    background-color: #E64A19;
+}
+
+.shortened-url-box a {
+    color: #FFEB3B;
+    font-size: 1.2rem;
+    text-decoration: none;
+    word-break: break-all;
+}
+
+.shortened-url-box p {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
 }
