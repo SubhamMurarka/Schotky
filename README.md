@@ -29,7 +29,8 @@
 
 Below is the high-level architecture of Schotky:
 
-![System Design Diagram](https://github.com/user-attachments/assets/7085d73c-6ccc-4f86-ba91-bf32645a1864)
+![System Design Diagram]![Screenshot 2024-12-03 194100](https://github.com/user-attachments/assets/f2974b96-bbd8-4281-8c0d-bb90da870bc7)
+
 
 ---
 
