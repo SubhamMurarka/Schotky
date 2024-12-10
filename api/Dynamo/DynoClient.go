@@ -202,6 +202,7 @@ func (d *DynamoDaxClient) SelectItem(shortURL string) (*dynamodb.GetItemOutput, 
 	var result *dynamodb.GetItemOutput
 	var err error
 
+	// Try to fetch the item from DAX
 	if UseDax == "true" && d.DaxClient != nil {
 		result, err = d.DaxClient.GetItem(input)
 		if err != nil {
@@ -209,18 +210,34 @@ func (d *DynamoDaxClient) SelectItem(shortURL string) (*dynamodb.GetItemOutput, 
 		}
 	}
 
-	// Fallback to DynamoDB if DAX is disabled or fails
+	// If DAX cache miss or DAX is disabled, fallback to DynamoDB
 	if result == nil || err != nil {
 		result, err = d.DynamoClient.GetItem(input)
 		if err != nil {
 			log.Printf("Failed to get item from DynamoDB: %v", err)
 			return nil, err
 		}
-	}
 
-	if result.Item == nil {
-		fmt.Println("Could not find the item.")
-		return nil, nil
+		// Check if the item exists in DynamoDB
+		if result.Item == nil {
+			fmt.Println("Could not find the item.")
+			return nil, nil
+		}
+
+		// Add the retrieved item to the DAX cache
+		if UseDax == "true" && d.DaxClient != nil {
+			putInput := &dynamodb.PutItemInput{
+				TableName: aws.String(TableName),
+				Item:      result.Item, // Use the retrieved item to populate the cache
+			}
+
+			_, putErr := d.DaxClient.PutItem(putInput)
+			if putErr != nil {
+				log.Printf("Failed to add item to DAX cache: %v", putErr)
+			} else {
+				fmt.Println("Item added to DAX cache.")
+			}
+		}
 	}
 
 	fmt.Printf("Retrieved item: %v\n", result.Item)

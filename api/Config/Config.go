@@ -9,6 +9,12 @@ import (
 	"github.com/joho/godotenv"
 )
 
+type RedisClientConfig struct {
+	Addr     string
+	Password string
+	DB       int
+}
+
 type AppConfig struct {
 	ChildLocks        string
 	ParentPath        string
@@ -26,6 +32,10 @@ type AppConfig struct {
 	UseDax            string
 	ExpiryTime        time.Duration
 	APP_PORT          string
+	KAFKA_HOST        string
+	KAFKA_PORT        string
+	TOPIC             string
+	REDISCONN         []RedisClientConfig
 }
 
 var Cfg AppConfig
@@ -39,6 +49,19 @@ func init() {
 
 	ServerEnv := os.Getenv("SERVER")
 	ServerList := strings.Split(ServerEnv, ",")
+	RedisServers := os.Getenv("REDIS_SERVER")
+	RedisServerList := strings.Split(RedisServers, ",")
+
+	var RedisClients []RedisClientConfig
+
+	for _, val := range RedisServerList {
+		RedisStruct := RedisClientConfig{
+			Addr:     val,
+			Password: "",
+			DB:       0,
+		}
+		RedisClients = append(RedisClients, RedisStruct)
+	}
 
 	// Parse SESSION_TIMEOUT environment variable into a time.Duration
 	sessionTimeout, err := time.ParseDuration(os.Getenv("SESSION_TIMEOUT"))
@@ -67,5 +90,9 @@ func init() {
 		UseDax:            os.Getenv("USE_DAX"),
 		ExpiryTime:        expiryTime,
 		APP_PORT:          os.Getenv("APP_PORT"),
+		KAFKA_HOST:        os.Getenv("KAFKA_HOST"),
+		KAFKA_PORT:        os.Getenv("KAFKA_PORT"),
+		REDISCONN:         RedisClients,
+		TOPIC:             os.Getenv("KAFKA_TOPIC"),
 	}
 }

@@ -56,5 +56,14 @@ func (h *Handler) ResolveUrl(c *fiber.Ctx) error {
 		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{"error": "No url Found"})
 	}
 
+	data := models.NewAnalyticsData(
+		c.IP(),
+		c.Get("Referer"),
+		c.Get("User-Agent"),
+		url,
+	)
+
+	services.PublishMessage(&data)
+
 	return c.Redirect(longUrl, 301)
 }

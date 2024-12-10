@@ -39,10 +39,5 @@ func ConvertToBase62(number int64) string {
 		number /= 62
 	}
 
-	//Ensuring base62 is exactly of 7 characters
-	for len(base62) < 7 {
-		base62 = "0" + base62
-	}
-
 	return base62
 }

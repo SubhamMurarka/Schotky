@@ -1,0 +1,221 @@
+version: '3.9'
+
+services:
+  # ZooKeeper Cluster
+  zk1:
+    container_name: zk1
+    hostname: zk1
+    image: bitnami/zookeeper:3.6.2
+    ports:
+      - 21811:2181
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - ZOO_SERVER_ID=1
+      - ZOO_SERVERS=0.0.0.0:2888:3888,zk2:2888:3888,zk3:2888:3888
+    networks:
+      - app-network
+
+  zk2:
+    container_name: zk2
+    hostname: zk2
+    image: bitnami/zookeeper:3.6.2
+    ports:
+      - 21812:2181
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - ZOO_SERVER_ID=2
+      - ZOO_SERVERS=zk1:2888:3888,0.0.0.0:2888:3888,zk3:2888:3888
+    networks:
+      - app-network
+
+  zk3:
+    container_name: zk3
+    hostname: zk3
+    image: bitnami/zookeeper:3.6.2
+    ports:
+      - 21813:2181
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - ZOO_SERVER_ID=3
+      - ZOO_SERVERS=zk1:2888:3888,zk2:2888:3888,0.0.0.0:2888:3888
+    networks:
+      - app-network
+
+  # Zoonavigator (UI for Zookeeper)
+  zoonavigator:
+    container_name: zoonavigator
+    image: elkozmon/zoonavigator
+    ports:
+      - 9000:9000
+    depends_on:
+      - zk1
+      - zk2
+      - zk3
+    networks:
+      - app-network
+
+  # DynamoDB Local for Testing
+  ddb:
+    image: amazon/dynamodb-local
+    container_name: ddb
+    ports:
+      - 8000:8000
+    networks:
+      - app-network
+
+  # Backend Services
+  backend1:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: backend1
+    environment:
+      - SERVER_ID=1
+    depends_on:
+      - ddb
+      - zk1
+      - zk2
+      - zk3
+      - kafka
+    networks:
+      - app-network
+
+  backend2:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: backend2
+    environment:
+      - SERVER_ID=2
+    depends_on:
+      - ddb
+      - zk1
+      - zk2
+      - zk3
+      - kafka
+    networks:
+      - app-network
+
+  backend3:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: backend3
+    environment:
+      - SERVER_ID=3
+    depends_on:
+      - ddb
+      - zk1
+      - zk2
+      - zk3
+      - kafka
+    networks:
+      - app-network
+
+  # Redis Instances for Rate Limiting
+  redis1:
+    image: redis:alpine
+    container_name: redis1
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  redis2:
+    image: redis:alpine
+    container_name: redis2
+    ports:
+      - "6380:6379"
+    networks:
+      - app-network
+
+  redis3:
+    image: redis:alpine
+    container_name: redis3
+    ports:
+      - "6381:6379"
+    networks:
+      - app-network
+
+  # NGINX Service with Lua for Rate Limiting
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80" # Map port 8080 on host to port 80 in the container
+    volumes:
+      - ./nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
+      # - ./nginx/lua/rate_limit_read.lua:/usr/local/openresty/nginx/lua/rate_limit_read.lua:ro
+      - ./nginx/logs/error.log:/var/log/nginx/error.log # Map error logs to host
+    depends_on:
+      - redis1
+      - redis2
+      - redis3
+      - backend1
+      - backend2
+      - backend3
+    restart: always
+    networks:
+      - app-network
+
+  # Elasticsearch Service
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - app-network
+
+  # ZooKeeper Service
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+    networks:
+      - app-network
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - app-network
+
+  # Analytics Service
+  analytics:
+    build:
+      context: ./analytics
+      dockerfile: Dockerfile
+    container_name: analytics
+    depends_on:
+      - kafka
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

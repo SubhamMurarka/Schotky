@@ -26,7 +26,7 @@ func NewShortenServiceObj(d Dynamo.DynamoDaxAPI, z zookeepercounter.ZooKeeperCli
 	return &ShortenService{
 		Dyno:  d,
 		Zkr:   z,
-		start: 0,
+		start: 3844,
 		end:   -1,
 	}
 }

@@ -1,13 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"log"
-	"os"
 
 	"github.com/SubhamMurarka/Schotky/Config"
 	"github.com/SubhamMurarka/Schotky/Dynamo"
 	handlers "github.com/SubhamMurarka/Schotky/Handlers"
+	middleware "github.com/SubhamMurarka/Schotky/Middleware"
 	services "github.com/SubhamMurarka/Schotky/Services"
 	zookeepercounter "github.com/SubhamMurarka/Schotky/ZookeeperCounter"
 	"github.com/gofiber/fiber/v2"
@@ -16,14 +15,17 @@ import (
 )
 
 func setupRoutes(app *fiber.App, h *handlers.Handler) {
+	app.Use(middleware.RateLimitMiddleware())
 	app.Get("/:url", h.ResolveUrl)
 	app.Post("/api/v1", h.ShortenUrl)
 }
 
 func main() {
-	//initialising zookeeper
-	dir, _ := os.Getwd()
-	fmt.Println(dir)
+	services.InitKafkaProducer()
+	defer services.CloseKafka()
+
+	middleware.InitializeRedisClients()
+	defer middleware.CloseRedisClients()
 
 	// initialise Dynamo and Dax
 	DDclient := Dynamo.NewDynamoDaxClient()

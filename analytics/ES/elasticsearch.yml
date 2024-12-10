@@ -1,0 +1,8 @@
+# Basic settings
+discovery.type: single-node
+xpack.security.enabled: false
+
+# CORS settings
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+http.cors.allow-methods: OPTIONS,HEAD,GET,POST,PUT,DELETE
