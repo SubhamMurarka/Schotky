@@ -36,7 +36,8 @@ Below is the high-level architecture of Schotky:
 
 ## 📹 Demo Video
 
-Watch the [demo video][Screencast from 21-11-24 02:15:48 PM IST.webm](https://github.com/user-attachments/assets/d4a7e8e0-4877-49e1-9773-2fee788310b9)
+Watch the [demo video][Screencast from 12-12-24 03:48:44 PM IST.webm](https://github.com/user-attachments/assets/89171014-3bf1-4017-9229-e1f007fc3267)
+
 to see Schotky in action.
 
 ---
