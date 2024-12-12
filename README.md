@@ -1,6 +1,6 @@
 # Schotky: Scalable URL Shortener Service
 
-**Schotky** is a high-performance and scalable URL shortener designed to transform long URLs into compact, shareable links. With its robust infrastructure and efficient design, Schotky ensures quick URL resolution, high reliability, and optimal user experience.
+Schotky is a high-performance and scalable URL shortener designed to transform long URLs into compact, shareable links. With its robust infrastructure, efficient design, and built-in analytics service, Schotky ensures quick URL resolution, high reliability, and detailed insights into user interactions for an optimal user experience.
 
 ---
 
@@ -12,6 +12,10 @@
 - **Base62 Encoding**: Ensures collision-free, compact short URLs.
 - **Click Analytics**: Tracks detailed metrics such as operating system, browser, device, and location.
 - **Real-Time Analytics Dashboard**: Displays click analytics using **Elasticsearch** and **Grafana**.
+- **Rate Limiting**: Implements **user IP-based rate limiting** with **Redis sharding**.
+- **Network Optimization**: Reduces hops by directly connecting **NGINX** with **Redis** for rate-limiting checks.
+- **TTL Management**: Automatically resets rate limit counters using Redis's Time to Live (TTL) feature.
+- **Fixed Window Algorithm**: Uses the fixed window approach for rate limiting.
 - **Modular Design**: Implements the **repository design pattern** for clean, maintainable code.
 
 ---
@@ -23,7 +27,8 @@
 - **Database**: AWS DynamoDB with DAX for faster read operations
 - **Distributed System Management**: ZooKeeper
 - **Message Queue**: Kafka for data streaming to Elasticsearch
-- **Load Balancing**: NGINX
+- **Load Balancing**: NGINX with Lua scripting
+- **Rate Limiting**: Redis (sharded) for efficient IP-based rate limiting
 - **Analytics**: Elasticsearch and Grafana
 - **Containerization**: Docker
 
