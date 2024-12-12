@@ -4,23 +4,27 @@
 
 ---
 
-## 🚀 Key Features
+## 🚀 **Key Features**
 
-- **High Scalability**: Supports up to **3.5 trillion unique URLs** and processes **thousands of requests per second**.
-- **Efficient URL Resolution**: Optimized for low latency and high performance.
-- **Distributed Counter Management**: Implements **ZooKeeper** for atomic counter updates across distributed systems.
-- **Base62 Encoding**: Generates collision-free, compact short URLs.
-- **Modular Design**: Follows the **repository design pattern** for clean, maintainable code.
+- **High Scalability**: Handles **up to 3.5 trillion unique URLs** and processes **thousands of requests per second**.
+- **Low Latency**: Optimized for high performance and quick response times.
+- **Distributed Counter Management**: Utilizes **ZooKeeper** for atomic counter updates across distributed systems.
+- **Base62 Encoding**: Ensures collision-free, compact short URLs.
+- **Click Analytics**: Tracks detailed metrics such as operating system, browser, device, and location.
+- **Real-Time Analytics Dashboard**: Displays click analytics using **Elasticsearch** and **Grafana**.
+- **Modular Design**: Implements the **repository design pattern** for clean, maintainable code.
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ **Tech Stack**
 
 - **Programming Language**: Golang
 - **Framework**: Fiber
 - **Database**: AWS DynamoDB with DAX for faster read operations
 - **Distributed System Management**: ZooKeeper
+- **Message Queue**: Kafka for data streaming to Elasticsearch
 - **Load Balancing**: NGINX
+- **Analytics**: Elasticsearch and Grafana
 - **Containerization**: Docker
 
 ---
