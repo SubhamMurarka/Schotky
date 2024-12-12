@@ -28,20 +28,19 @@ Schotky is a high-performance and scalable URL shortener designed to transform l
 
 ---
 
-## 📈 System Design
-
-Below is the high-level architecture of Schotky:
-
-![System Design Diagram]![Screenshot 2024-12-03 194100](https://github.com/user-attachments/assets/f2974b96-bbd8-4281-8c0d-bb90da870bc7)
-
-
----
-
 ## 📹 Demo Video
 
 Watch the [demo video][Screencast from 12-12-24 03:48:44 PM IST.webm](https://github.com/user-attachments/assets/89171014-3bf1-4017-9229-e1f007fc3267)
 
 to see Schotky in action.
+
+---
+
+## 📈 System Design
+
+Below is the high-level architecture of Schotky:
+
+![System Design Diagram]![Screenshot 2024-12-03 194100](https://github.com/user-attachments/assets/f2974b96-bbd8-4281-8c0d-bb90da870bc7)
 
 ---
 
