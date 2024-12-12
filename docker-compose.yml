@@ -60,6 +60,8 @@ services:
     container_name: ddb
     ports:
       - 8000:8000
+    volumes:
+      - ./api/ddb_data:/home/dynamodblocal/data
     networks:
       - app-network
 
@@ -93,6 +95,16 @@ services:
       - zk2
       - zk3
       - kafka
+    networks:
+      - app-network
+
+  visualise:
+    build:
+      context: ./visualise
+      dockerfile: Dockerfile
+    container_name: visualise
+    depends_on:
+      - grafana
     networks:
       - app-network
 
@@ -146,7 +158,6 @@ services:
       - "8080:80" # Map port 8080 on host to port 80 in the container
     volumes:
       - ./nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
-      # - ./nginx/lua/rate_limit_read.lua:/usr/local/openresty/nginx/lua/rate_limit_read.lua:ro
       - ./nginx/logs/error.log:/var/log/nginx/error.log # Map error logs to host
     depends_on:
       - redis1
@@ -175,6 +186,23 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    networks:
+      - app-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_NAME=Main Org.
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
+    volumes:
+      - grafana_data:/var/lib/grafana
+    restart: always
     networks:
       - app-network
 
@@ -219,3 +247,9 @@ services:
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  ddb_data:
+  es_data:
+  grafana_data:
+  grafana_logs:
