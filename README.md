@@ -6,17 +6,11 @@ Schotky is a high-performance and scalable URL shortener designed to transform l
 
 ## 🚀 **Key Features**
 
-- **High Scalability**: Handles **up to 3.5 trillion unique URLs** and processes **thousands of requests per second**.
-- **Low Latency**: Optimized for high performance and quick response times.
-- **Distributed Counter Management**: Utilizes **ZooKeeper** for atomic counter updates across distributed systems.
-- **Base62 Encoding**: Ensures collision-free, compact short URLs.
-- **Click Analytics**: Tracks detailed metrics such as operating system, browser, device, and location.
-- **Real-Time Analytics Dashboard**: Displays click analytics using **Elasticsearch** and **Grafana**.
-- **Rate Limiting**: Implements **user IP-based rate limiting** with **Redis sharding**.
-- **Network Optimization**: Reduces hops by directly connecting **NGINX** with **Redis** for rate-limiting checks.
-- **TTL Management**: Automatically resets rate limit counters using Redis's Time to Live (TTL) feature.
-- **Fixed Window Algorithm**: Uses the fixed window approach for rate limiting.
-- **Modular Design**: Implements the **repository design pattern** for clean, maintainable code.
+- **Scalability & Performance**: Handles **3.5 trillion URLs** and processes **thousands of requests per second** with low latency.  
+- **Counter Management**: Uses **ZooKeeper** for atomic updates and **Base62 Encoding** for compact URLs.  
+- **Analytics**: Tracks user data (OS, browser, device, location) with **Elasticsearch** and **Grafana** for real-time insights.  
+- **Rate Limiting**: Implements **IP-based rate limiting (Fixed Window)** with **NGINX(Lua script)** and **Redis(sharded)** reducing network hops and efficient checks. 
+- **Modular Design**: Follows the **repository design pattern** for maintainability.
 
 ---
 
@@ -25,7 +19,7 @@ Schotky is a high-performance and scalable URL shortener designed to transform l
 - **Programming Language**: Golang
 - **Framework**: Fiber
 - **Database**: AWS DynamoDB with DAX for faster read operations
-- **Distributed System Management**: ZooKeeper
+- **Distributed Counter Management**: ZooKeeper
 - **Message Queue**: Kafka for data streaming to Elasticsearch
 - **Load Balancing**: NGINX with Lua scripting
 - **Rate Limiting**: Redis (sharded) for efficient IP-based rate limiting
@@ -59,10 +53,6 @@ To run the Schotky service on your machine:
    ```bash
    git clone https://github.com/SubhamMurarka/Schotky.git
 
-2. Move to Schotky/api
-   ```bash
-   cd Schotky/api
-
-3. Run with Docker
+2. Run with Docker
 ```bash
 docker-compose up -d --build
