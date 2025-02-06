@@ -30,9 +30,41 @@ This ensures that once the window expires, the count is reset, and the user can 
 
 - **Reduced Network Hops**: By directly connecting Redis to Nginx for rate limiting, the need for an additional service is eliminated. This setup reduces the number of network hops by 50%, leading to a significant reduction in latency and improving overall system efficiency.
 
-## 📈 System Design
+## Shortening and Redirecting
 
-Below is the high-level architecture of Schotky:
+### overview
+
+This service handles the shortening of long URLs and redirects users to the corresponding long URLs using a unique short URL.
+
+### How Shortening Works
+
+Request Reception:
+
+A user sends a request to shorten a long URL.
+Unique ID Generation:
+
+If the system has exhausted its available unique IDs, it requests a range of IDs from Zookeeper to ensure sequential ID allocation.
+Base62 Encoding:
+
+The obtained unique ID is encoded using Base62, converting the numeric ID into a compact alphanumeric string, which will serve as the short URL.
+Storing URL:
+
+The short URL along with the corresponding long URL is saved in DynamoDB for persistence.
+
+### How Redirection Works
+
+Short URL Request:
+
+A user requests the short URL for redirection.
+URL Lookup:
+
+The service looks up the corresponding long URL for the short URL in DynamoDB Accelerator (DAX).
+DAX handles cache misses efficiently, ensuring fast retrieval of the long URL.
+Redirection:
+
+Once the long URL is fetched, the user is redirected to the long URL.
+
+
 
 ![System Design Diagram]![Screenshot 2024-12-03 194100](https://github.com/user-attachments/assets/f2974b96-bbd8-4281-8c0d-bb90da870bc7)
 
