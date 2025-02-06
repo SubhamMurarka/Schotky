@@ -86,19 +86,19 @@ The system collects and processes click event data, stores it for analysis, and 
 ![Screenshot 2025-02-07 014028](https://github.com/user-attachments/assets/9a258908-6616-4997-955b-e04ab8955487)
 
 
-## 🛠️ **Tech Stack**
+## 🛠️ Tech Stack
 
-- **Programming Language**: Golang
-- **Framework**: Fiber
-- **Database**: AWS DynamoDB with DAX for faster read operations
-- **Distributed Counter Management**: ZooKeeper
-- **Message Queue**: Kafka for data streaming to Elasticsearch
-- **Load Balancing**: NGINX with Lua scripting
-- **Rate Limiting**: Redis (sharded) for efficient IP-based rate limiting
-- **Analytics**: Elasticsearch and Grafana
-- **Containerization**: Docker
-
----
+![Go](https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white)
+![Fiber](https://img.shields.io/badge/Fiber-FF2D20?style=for-the-badge&logo=fiber&logoColor=white)
+![DynamoDB](https://img.shields.io/badge/DynamoDB-4053D6?style=for-the-badge&logo=amazonaws&logoColor=white)
+![DAX](https://img.shields.io/badge/DAX-4053D6?style=for-the-badge&logo=amazonaws&logoColor=white)
+![Kafka](https://img.shields.io/badge/Apache%20Kafka-231F20?style=for-the-badge&logo=apache-kafka&logoColor=white)
+![Nginx](https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Docker Compose](https://img.shields.io/badge/Docker_Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=for-the-badge&logo=elasticsearch&logoColor=white)
+![Grafana](https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white)
+![Zookeeper](https://img.shields.io/badge/Zookeeper-000000?style=for-the-badge&logo=zookeeper&logoColor=white)
 
 ## 🔧 Setup Instructions
 
