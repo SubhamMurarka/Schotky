@@ -24,6 +24,8 @@ If the rate limit is exceeded, Nginx blocks the request and sends a 429 (Too Man
 - **TTL Management in Redis**: Redis ensures the request count is stored with a Time-To-Live (TTL), automatically resetting the count after the defined time window has passed (e.g., 1 minute).
 This ensures that once the window expires, the count is reset, and the user can start making requests again.
 
+![Sharded Redis for Rate limiting (2)](https://github.com/user-attachments/assets/08f31c6d-d402-49e3-89b2-bb88a1fe34b3)
+
 ### Optimizations
 
 - **Reduced Network Hops**: By directly connecting Redis to Nginx for rate limiting, the need for an additional service is eliminated. This setup reduces the number of network hops by 50%, leading to a significant reduction in latency and improving overall system efficiency.
