@@ -54,7 +54,7 @@ This service handles the shortening of long URLs and redirects users to the corr
  
 - **Redirection**: Once the long URL is fetched, the user is redirected to the long URL.
 
-![httpswww xyz com (2)](https://github.com/user-attachments/assets/89bbd669-6ad8-4ffd-b3ca-5e67c4220aa5)
+![httpswww xyz com (1)](https://github.com/user-attachments/assets/fc05f22c-23b8-4293-8edc-e0565e09de53)
 
 ![System Design Diagram]![Screenshot 2024-12-03 194100](https://github.com/user-attachments/assets/f2974b96-bbd8-4281-8c0d-bb90da870bc7)
 
