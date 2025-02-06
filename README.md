@@ -81,9 +81,10 @@ The system collects and processes click event data, stores it for analysis, and 
 
 ![Short Url](https://github.com/user-attachments/assets/36fd51db-77f4-451d-9cb3-02f28ee5c9ef)
 
-![System Design Diagram]![Screenshot 2024-12-03 194100](https://github.com/user-attachments/assets/f2974b96-bbd8-4281-8c0d-bb90da870bc7)
+### Grafana Dashboard
 
----
+![Screenshot 2025-02-07 014028](https://github.com/user-attachments/assets/9a258908-6616-4997-955b-e04ab8955487)
+
 
 ## 🛠️ **Tech Stack**
 
