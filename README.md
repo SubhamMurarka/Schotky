@@ -85,6 +85,17 @@ The system collects and processes click event data, stores it for analysis, and 
 
 ![Screenshot 2025-02-07 014028](https://github.com/user-attachments/assets/9a258908-6616-4997-955b-e04ab8955487)
 
+## Calculations
+
+lets consider 2000 req/s
+
+Requests per month = 2000req/s × 60s/min × 60min/h × 24h/day × 30days/month = 5,184,000,000requests/month
+
+lets consider the minimum length of short url be 3 and maximum 7, with base62 encoding.
+
+Total unique IDs = 62^3 + 62^4 + 62^5 + 62^6 + 62^7 = 3583328087528 unique ids can be generated.
+
+Then, total years of serving = Total Unique IDs / Requests per month ≈ 691.07years
 
 ## 🛠️ Tech Stack
 
