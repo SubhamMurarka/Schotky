@@ -56,6 +56,10 @@ This service handles the shortening of long URLs and redirects users to the corr
 
 ![httpswww xyz com (1)](https://github.com/user-attachments/assets/fc05f22c-23b8-4293-8edc-e0565e09de53)
 
+## Why Zookeeper?
+
+// TODO
+
 ## Analytics
 
 ### Overview
