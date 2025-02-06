@@ -78,8 +78,8 @@ The system collects and processes click event data, stores it for analysis, and 
 - **Batching of Data**: The consumers batch the click events before inserting them into Elasticsearch, reducing the number of individual requests and optimizing throughput.Batching improves Elasticsearch indexing performance and reduces network I/O, as Elasticsearch is optimized for bulk operations.
 
 - **ElasticSearch**: Elasticsearch’s indexing and querying capabilities enable efficient retrieval of large volumes of analytics data, ensuring minimal response times for complex queries making it ideal for analytics purpose.
-  
-![Short Url (1)](https://github.com/user-attachments/assets/eb049cf5-6025-4290-b60d-380c2ee5fc99)
+
+![Short Url](https://github.com/user-attachments/assets/36fd51db-77f4-451d-9cb3-02f28ee5c9ef)
 
 ![System Design Diagram]![Screenshot 2024-12-03 194100](https://github.com/user-attachments/assets/f2974b96-bbd8-4281-8c0d-bb90da870bc7)
 
