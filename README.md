@@ -56,6 +56,31 @@ This service handles the shortening of long URLs and redirects users to the corr
 
 ![httpswww xyz com (1)](https://github.com/user-attachments/assets/fc05f22c-23b8-4293-8edc-e0565e09de53)
 
+## Analytics
+
+### Overview
+
+The system collects and processes click event data, stores it for analysis, and visualizes the data in an interactive and insightful manner.
+
+### How Analytics Work
+
+- **Click Event Capture**: Every click event is captured and passed to Kafka for streaming.
+  
+- **Kafka Consumption**: Kafka consumers read the click events from the stream.
+  
+- **Data Enrichment**: The consumers batch the data and fetch additional details such as: User IP address, Geolocation, Operating System, Other relevant information from header.
+  
+- **Data Ingestion**:After enrichment, the batched data is inserted into Elasticsearch for indexing and efficient querying.
+  
+- **Data Visualization**:Grafana fetches the data from Elasticsearch and presents it in a visual and interactive dashboard, allowing real-time analytics and reporting.
+  
+### Optimizations:
+- **Batching of Data**: The consumers batch the click events before inserting them into Elasticsearch, reducing the number of individual requests and optimizing throughput.Batching improves Elasticsearch indexing performance and reduces network I/O, as Elasticsearch is optimized for bulk operations.
+
+- **ElasticSearch**: Elasticsearch’s indexing and querying capabilities enable efficient retrieval of large volumes of analytics data, ensuring minimal response times for complex queries making it ideal for analytics purpose.
+  
+![Short Url (1)](https://github.com/user-attachments/assets/eb049cf5-6025-4290-b60d-380c2ee5fc99)
+
 ![System Design Diagram]![Screenshot 2024-12-03 194100](https://github.com/user-attachments/assets/f2974b96-bbd8-4281-8c0d-bb90da870bc7)
 
 ---
