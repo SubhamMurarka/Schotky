@@ -26,9 +26,7 @@ This ensures that once the window expires, the count is reset, and the user can 
 
 ### Optimizations
 
-- **Reduced Network Hops**: Since the rate limiting decision (IP check and request count increment) is handled in-memory in Redis, the system minimizes network latency. This is a significant optimization because, in traditional systems, each request might require querying a central server for rate limiting, resulting in additional network hops.
-  
-By having only Redis as an external dependency for rate limiting, the system’s efficiency is significantly improved, reducing the number of network hops by 50% compared to a setup that involves multiple services.
+- **Reduced Network Hops**: By directly connecting Redis to Nginx for rate limiting, the need for an additional service is eliminated. This setup reduces the number of network hops by 50%, leading to a significant reduction in latency and improving overall system efficiency.
 
 ## 📈 System Design
 
