@@ -32,39 +32,29 @@ This ensures that once the window expires, the count is reset, and the user can 
 
 ## Shortening and Redirecting
 
-### overview
+### Overview
 
 This service handles the shortening of long URLs and redirects users to the corresponding long URLs using a unique short URL.
 
 ### How Shortening Works
 
-Request Reception:
+- **Request Reception**: A user sends a request to shorten a long URL.
+  
+- **Unique ID Generation**: If the system has exhausted its available unique IDs, it requests a range of IDs from Zookeeper to ensure sequential ID allocation.
 
-A user sends a request to shorten a long URL.
-Unique ID Generation:
-
-If the system has exhausted its available unique IDs, it requests a range of IDs from Zookeeper to ensure sequential ID allocation.
-Base62 Encoding:
-
-The obtained unique ID is encoded using Base62, converting the numeric ID into a compact alphanumeric string, which will serve as the short URL.
-Storing URL:
-
-The short URL along with the corresponding long URL is saved in DynamoDB for persistence.
+- **Base62 Encoding**: The obtained unique ID is encoded using Base62, converting the numeric ID into a compact alphanumeric string, which will serve as the short URL.
+  
+- **Storing URL**: The short URL along with the corresponding long URL is saved in DynamoDB for persistence.
 
 ### How Redirection Works
 
-Short URL Request:
+- **Short URL Request**: A user requests the short URL for redirection.
+  
+- **URL Lookup**: The service looks up the corresponding long URL for the short URL in DynamoDB Accelerator (DAX).DAX handles cache misses efficiently, ensuring fast retrieval of the long URL.
+ 
+- **Redirection**: Once the long URL is fetched, the user is redirected to the long URL.
 
-A user requests the short URL for redirection.
-URL Lookup:
-
-The service looks up the corresponding long URL for the short URL in DynamoDB Accelerator (DAX).
-DAX handles cache misses efficiently, ensuring fast retrieval of the long URL.
-Redirection:
-
-Once the long URL is fetched, the user is redirected to the long URL.
-
-
+![httpswww xyz com (2)](https://github.com/user-attachments/assets/89bbd669-6ad8-4ffd-b3ca-5e67c4220aa5)
 
 ![System Design Diagram]![Screenshot 2024-12-03 194100](https://github.com/user-attachments/assets/f2974b96-bbd8-4281-8c0d-bb90da870bc7)
 
