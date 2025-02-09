@@ -71,17 +71,17 @@ This service handles the shortening of long URLs and redirects users to the corr
   
       why 3844 as starting point read calculation section below.
 
-  - **Locks node** contains the ephemeral sequential nodes (es nodes) required to implement the locking mechanism.
+  - **Lock node** contains the ephemeral sequential nodes (ES nodes) required to implement the locking mechanism.
 
 ### Distributed locking
 
-  Whenver a server requires a new range, a new es node is created for it in Locks node. example : /locks/lock-0002
+  Whenver a server requires a new range, a new ES node is created for it in Lock node. example : /lock/locks-0002
 
-  node with smaller sequence value gets the chance first to acquire lock, claim a new range (GlobalCtData).
+  Node with smaller sequence value gets the chance first to acquire lock, claim a new range (GlobalCtData).
 
-  Server updates its range as start = GlobalCtDataPrev, End = GlobalCtData + Range - 1 and Update GlobalCtData to End + 1.
+  Server updates its range as Start = GlobalCtDataPrev, End = GlobalCtData + Range - 1 and Update GlobalCtData to End + 1.
 
-  After that es node corresponding to this server in lock is deleted/ released.
+  After that ES node corresponding to this server in Lock node is deleted/ released.
 
   While other nodes with larger sequences watch there previous node if it is deleted then do the same thing.
 
