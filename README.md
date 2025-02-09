@@ -61,18 +61,17 @@ This service handles the shortening of long URLs and redirects users to the corr
 ![Screenshot from 2025-02-09 19-48-13](https://github.com/user-attachments/assets/25221448-37a4-4abc-9e4f-c819664b7ca7)
 
 **Using Zookeeper is not the only solution** can use DB, Snowflake ID etc but it was more of learning decision not engineering to understand how zookeeper works.
-
-How can we implement distributed locking with zookeeper.
+  How can we implement distributed locking with zookeeper.
 
 ### Basic Setup
 
 - **Nodes**
   
-  GlobalCt node which contains the data currently avaible starting point for any server and it gets atomically incremented, thread safe.
+  - **GlobalCt node** which contains the data currently avaible starting point for any server and it gets atomically incremented, thread safe.
   
-  why 3844 as starting point read calculation section below.
+      why 3844 as starting point read calculation section below.
 
-  Locks node contains the ephemeral sequential nodes (es nodes) required to implement the locking mechanism.
+  - **Locks node** contains the ephemeral sequential nodes (es nodes) required to implement the locking mechanism.
 
 ### Distributed locking
 
