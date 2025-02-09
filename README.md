@@ -58,6 +58,8 @@ This service handles the shortening of long URLs and redirects users to the corr
 
 ## Why Zookeeper?
 
+![Screenshot from 2025-02-09 18-14-36](https://github.com/user-attachments/assets/593f542b-5859-4024-8aa7-92413f7dd219)
+
 // TODO
 
 ## Analytics
