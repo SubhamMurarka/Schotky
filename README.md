@@ -60,7 +60,31 @@ This service handles the shortening of long URLs and redirects users to the corr
 
 ![Screenshot from 2025-02-09 19-48-13](https://github.com/user-attachments/assets/25221448-37a4-4abc-9e4f-c819664b7ca7)
 
-// TODO
+**Using Zookeeper is not the only solution** can use DB, Snowflake ID etc but it was more of learning decision not engineering to understand how zookeeper works.
+
+How can we implement distributed locking with zookeeper.
+
+### Basic Setup
+
+- **Nodes**
+  
+  GlobalCt node which contains the data currently avaible starting point for any server and it gets atomically incremented, thread safe.
+  
+  why 3844 as starting point read calculation section below.
+
+  Locks node contains the ephemeral sequential nodes (es nodes) required to implement the locking mechanism.
+
+### Distributed locking
+
+  Whenver a server requires a new range, a new es node is created for it in Locks node. example : /locks/lock-0002
+
+  node with smaller sequence value gets the chance first to acquire lock, claim a new range (GlobalCtData).
+
+  Server updates its range as start = GlobalCtDataPrev, End = GlobalCtData + Range - 1 and Update GlobalCtData to End + 1.
+
+  After that es node corresponding to this server in lock is deleted/ released.
+
+  While other nodes with larger sequences watch there previous node if it is deleted then do the same thing.
 
 ## Analytics
 
@@ -98,6 +122,8 @@ lets consider 2000 req/s
 Requests per month = 2000req/s × 60s/min × 60min/h × 24h/day × 30days/month = 5,184,000,000requests/month
 
 lets consider the minimum length of short url be 3 and maximum 7, with base62 encoding.
+
+for minimum length to be 3 Counter value should be atleast 3844.
 
 Total unique IDs = 62^3 + 62^4 + 62^5 + 62^6 + 62^7 = 3583328087528 unique ids can be generated.
 
