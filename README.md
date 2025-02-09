@@ -79,7 +79,7 @@ This service handles the shortening of long URLs and redirects users to the corr
 
   Node with smaller sequence value gets the chance first to acquire lock, claim a new range (GlobalCtData).
 
-  Server updates its range as Start = GlobalCtDataPrev, End = GlobalCtData + Range - 1 and Update GlobalCtData to End + 1.
+  Server updates its range as start = GlobalCtData, end = GlobalCtData + Range - 1 and Update GlobalCtData = end + 1.
 
   After that ES node corresponding to this server in Lock node is deleted/ released.
 
